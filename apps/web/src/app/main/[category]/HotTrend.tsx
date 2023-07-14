@@ -1,19 +1,20 @@
+import { HotTrendCategory } from '@/apis/type';
 import HotTrendCard from '@/components/HotTrendItem';
 import ChevronIcon from '@/components/icons/ChevronIcon';
-
-import { Convenience } from '@/app/type';
-import { mainHotTrendData } from '@/dummy/hotTrend';
+import { useGetHotTrendGoods } from '@/hooks/query/useHotTrends';
 
 interface HotTrendProps {
-  convenience: Convenience;
+  convenience: HotTrendCategory;
 }
 
 export default function HotTrend({ convenience }: HotTrendProps) {
+  const { data } = useGetHotTrendGoods(convenience);
+
   return (
     <div>
       <div className="flex flex-wrap items-start justify-start gap-y-5">
-        {mainHotTrendData.map((props) => (
-          <HotTrendCard key={props.id} {...props} />
+        {data?.map((props, idx) => (
+          <HotTrendCard key={`${idx}-${props.goodsName}`} {...props} />
         ))}
       </div>
       <div className="mt-10">
